@@ -128,9 +128,14 @@ function App() {
       </form>
 
       {/* Divider indicating OR */}
-      <div style={{ textAlign: "center", margin: "0 0", fontWeight: "bold" }}>OR</div>
+      <div style={{ textAlign: "center", margin: "0 0", fontWeight: "bold" }}>
+        OR
+      </div>
 
-      <button onClick={() => setScanning(!scanning)}>
+      <button
+        className="gradient-button"
+        onClick={() => setScanning(!scanning)}
+      >
         {scanning ? "Stop Scanning" : "Scan QR Code"}
       </button>
 
