@@ -23,7 +23,7 @@ function App() {
         `https://api.airtable.com/v0/app5cBH0nxzVUysXB/Registration`,
         {
           headers: {
-            Authorization: `Bearer patqmneNITxUZMqvh.6428bde97139fccfde8876240fce3c9516d79b6b2484a180eb6e4e696661cde5`,
+            Authorization: `Bearer YOUR_AIRTABLE_API_KEY`,
           },
           params: {
             filterByFormula: `{Ref_ID}="${refId}"`,
@@ -126,6 +126,9 @@ function App() {
         />
         <button type="submit">Search</button>
       </form>
+
+      {/* Divider indicating OR */}
+      <div style={{ textAlign: "center", margin: "0 0", fontWeight: "bold" }}>OR</div>
 
       <button onClick={() => setScanning(!scanning)}>
         {scanning ? "Stop Scanning" : "Scan QR Code"}

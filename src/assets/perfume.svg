@@ -1,0 +1,43 @@
+<svg id='Perfume_Bottle_24' width='24' height='24' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'><rect width='24' height='24' stroke='none' fill='#000000' opacity='0'/>
+
+
+<g transform="matrix(0.31 0 0 0.31 12 12)" >
+<g style="" >
+<g transform="matrix(1 0 0 1 0 5.5)" >
+<linearGradient id="SVGID_BOALi6GieI6xep02bK6KUa_1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1 0 0 1 0 0)" x1="32" y1="36.17" x2="32" y2="39.339">
+<stop offset="0%" style="stop-color:rgb(109,199,255);stop-opacity: 1"/>
+<stop offset="100%" style="stop-color:rgb(230,171,255);stop-opacity: 1"/>
+</linearGradient>
+<path style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: url(#SVGID_BOALi6GieI6xep02bK6KUa_1); fill-rule: nonzero; opacity: 1;" transform=" translate(-32, -37.5)" d="M 37.92 39 L 26.08 39 C 25.484 39 25 38.516 25 37.92 L 25 37.08 C 25 36.483 25.484 36 26.08 36 L 37.92 36 C 38.517 36 39 36.484 39 37.08 L 39 37.92 C 39 38.516 38.516 39 37.92 39 z" stroke-linecap="round" />
+</g>
+<g transform="matrix(1 0 0 1 -15.5 -2.5)" >
+<linearGradient id="SVGID_BOALi6GieI6xep02bK6KUb_2" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1 0 0 1 0 0)" x1="16.5" y1="26.021" x2="16.5" y2="32.288">
+<stop offset="0%" style="stop-color:rgb(109,199,255);stop-opacity: 1"/>
+<stop offset="100%" style="stop-color:rgb(230,171,255);stop-opacity: 1"/>
+</linearGradient>
+<path style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: url(#SVGID_BOALi6GieI6xep02bK6KUb_2); fill-rule: nonzero; opacity: 1;" transform=" translate(-16.5, -29.5)" d="M 20 26 L 15 26 C 13.895 26 13 26.895 13 28 L 13 33 L 20 26 z" stroke-linecap="round" />
+</g>
+<g transform="matrix(1 0 0 1 0 0)" >
+<linearGradient id="SVGID_BOALi6GieI6xep02bK6KUc_3" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1 0 0 1 0 0)" x1="32" y1="5.894" x2="32" y2="59.017">
+<stop offset="0%" style="stop-color:rgb(26,109,255);stop-opacity: 1"/>
+<stop offset="100%" style="stop-color:rgb(200,34,255);stop-opacity: 1"/>
+</linearGradient>
+<path style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: url(#SVGID_BOALi6GieI6xep02bK6KUc_3); fill-rule: nonzero; opacity: 1;" transform=" translate(-32, -32)" d="M 50 22 L 43 22 L 43 19 C 43 18.447 42.553 18 42 18 L 41 18 L 41 16 L 41.69 16 C 43.515 16 45 14.516 45 12.69 L 45 9.31 C 45 7.484 43.516 6 41.69 6 L 22.31 6 C 20.484 6 19 7.484 19 9.31 L 19 12.691 C 19 14.516 20.484 16.001 22.31 16.001 L 23 16.001 L 23 18.001 L 22 18.001 C 21.447 18.001 21 18.448 21 19.001 L 21 22.001 L 14 22.001 C 11.243 22.001 9 24.244 9 27.001 L 9 53.001000000000005 C 9 55.758 11.243 58.001000000000005 14 58.001000000000005 L 50 58.001000000000005 C 52.757 58.001000000000005 55 55.758 55 53.001000000000005 L 55 27 C 55 24.243 52.757 22 50 22 z M 41 22 L 39 22 L 39 20 L 41 20 L 41 22 z M 35 22 L 35 20 L 37 20 L 37 22 L 35 22 z M 31 22 L 31 20 L 33 20 L 33 22 L 31 22 z M 27 22 L 27 20 L 29 20 L 29 22 L 27 22 z M 22.31 14 C 21.588 14 21 13.412 21 12.69 L 21 9.31 C 21 8.588 21.588 8 22.31 8 L 27 8 L 27 10 L 29 10 L 29 8 L 31 8 L 31 12 L 33 12 L 33 8 L 35 8 L 35 10 L 37 10 L 37 8 L 41.69 8 C 42.412 8 43 8.588 43 9.31 L 43 12.691 C 43 13.413 42.412 14.001000000000001 41.69 14.001000000000001 L 41 14.001000000000001 L 22.31 14.001000000000001 z M 25 16 L 39 16 L 39 18 L 25 18 L 25 16 z M 23 20 L 25 20 L 25 22 L 23 22 L 23 20 z M 53 53 C 53 54.653999999999996 51.653999999999996 56 50 56 L 41.816 56 C 41.403000000000006 54.837 40.304 54 39 54 L 25 54 C 23.696 54 22.597 54.837 22.184 56 L 14 56 C 12.346 56 11 54.653999999999996 11 53 L 11 27 C 11 25.346 12.346 24 14 24 L 50 24 C 51.653999999999996 24 53 25.346 53 27 L 53 53 z" stroke-linecap="round" />
+</g>
+<g transform="matrix(1 0 0 1 0 7.5)" >
+<linearGradient id="SVGID_BOALi6GieI6xep02bK6KUd_4" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1 0 0 1 0 0)" x1="32" y1="5.894" x2="32" y2="59.017">
+<stop offset="0%" style="stop-color:rgb(26,109,255);stop-opacity: 1"/>
+<stop offset="100%" style="stop-color:rgb(200,34,255);stop-opacity: 1"/>
+</linearGradient>
+<path style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: url(#SVGID_BOALi6GieI6xep02bK6KUd_4); fill-rule: nonzero; opacity: 1;" transform=" translate(-32, -39.5)" d="M 41 31 L 23 31 C 21.346 31 20 32.346000000000004 20 34 L 20 45 C 20 46.653999999999996 21.346 48 23 48 L 41 48 C 42.653999999999996 48 44 46.653999999999996 44 45 L 44 34 C 44 32.346 42.654 31 41 31 z M 42 45 C 42 45.552 41.552 46 41 46 L 23 46 C 22.448 46 22 45.552 22 45 L 22 34 C 22 33.448 22.448 33 23 33 L 41 33 C 41.552 33 42 33.448 42 34 L 42 45 z" stroke-linecap="round" />
+</g>
+<g transform="matrix(1 0 0 1 0 10)" >
+<linearGradient id="SVGID_BOALi6GieI6xep02bK6KUe_5" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1 0 0 1 -32 -42)" x1="32" y1="5.894" x2="32" y2="59.017">
+<stop offset="0%" style="stop-color:rgb(26,109,255);stop-opacity: 1"/>
+<stop offset="100%" style="stop-color:rgb(200,34,255);stop-opacity: 1"/>
+</linearGradient>
+<rect style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: url(#SVGID_BOALi6GieI6xep02bK6KUe_5); fill-rule: nonzero; opacity: 1;" x="-4" y="-1" rx="0" ry="0" width="8" height="2" />
+</g>
+</g>
+</g>
+</svg>
