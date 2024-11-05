@@ -82,9 +82,11 @@ function App() {
 
     return (
       <span className="badge">
-        <strong>{label}:</strong> {displayValue}
+        <span className="badge-key">{label}:</span>
+        <span className="badge-value">{displayValue}</span>
       </span>
     );
+    
   };
 
   const renderImageStatus = (label, imageData) => {
