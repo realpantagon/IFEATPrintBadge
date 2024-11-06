@@ -22,7 +22,7 @@ function App() {
     email: "",
     position: "",
     company: "",
-    phone: ""
+    phone: "",
   });
 
   const handleInputChange = (e) => {
@@ -37,18 +37,21 @@ function App() {
     try {
       setIsGeneratingPDF(true);
       setPdfReady(false);
-  
+
       // Construct filter formula for case-insensitive search
       const filters = Object.entries(searchFields)
         .filter(([, value]) => value) // Only include non-empty fields
         .map(
           ([key, value]) =>
-            `SEARCH(LOWER("${value}"), LOWER({${key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, " $1")}}))`
+            `SEARCH(LOWER("${value}"), LOWER({${
+              key.charAt(0).toUpperCase() +
+              key.slice(1).replace(/([A-Z])/g, " $1")
+            }}))`
         )
         .join(",");
-  
+
       const formula = filters ? `OR(${filters})` : "";
-  
+
       const response = await axios.get(
         `https://api.airtable.com/v0/app5cBH0nxzVUysXB/Registration`,
         {
@@ -60,7 +63,7 @@ function App() {
           },
         }
       );
-  
+
       const record = response.data.records[0];
       if (record && record.fields) {
         setData(record.fields);
@@ -77,7 +80,6 @@ function App() {
       setIsGeneratingPDF(false);
     }
   };
-  
 
   const handleCheckInSuccess = () => {
     setCheckInStatus("Checked_in");
@@ -85,7 +87,8 @@ function App() {
 
   const renderBadge = (label, value) => {
     let displayValue = value ?? <span style={{ color: "red" }}>No data</span>;
-    if (typeof value !== "string" && typeof value !== "number") displayValue = <span style={{ color: "red" }}>Invalid data</span>;
+    if (typeof value !== "string" && typeof value !== "number")
+      displayValue = <span style={{ color: "red" }}>Invalid data</span>;
 
     return (
       <span className="badge">
@@ -100,7 +103,11 @@ function App() {
     return (
       <span className="badge">
         <strong>{label}:</strong>{" "}
-        {hasImage ? <span style={{ color: "green" }}>✅</span> : <span style={{ color: "red" }}>❌</span>}
+        {hasImage ? (
+          <span style={{ color: "green" }}>✅</span>
+        ) : (
+          <span style={{ color: "red" }}>❌</span>
+        )}
       </span>
     );
   };
@@ -108,58 +115,66 @@ function App() {
   return (
     <div>
       <div className="search-fields">
-  <input
-    type="text"
-    name="firstName"
-    placeholder="First Name"
-    value={searchFields.firstName}
-    onChange={handleInputChange}
-  />
-  <input
-    type="text"
-    name="lastName"
-    placeholder="Last Name"
-    value={searchFields.lastName}
-    onChange={handleInputChange}
-  />
-  <input
-    type="text"
-    name="email"
-    placeholder="Email"
-    value={searchFields.email}
-    onChange={handleInputChange}
-  />
-  <input
-    type="text"
-    name="position"
-    placeholder="Position"
-    value={searchFields.position}
-    onChange={handleInputChange}
-  />
-  <input
-    type="text"
-    name="company"
-    placeholder="Company"
-    value={searchFields.company}
-    onChange={handleInputChange}
-  />
-  <input
-    type="text"
-    name="phone"
-    placeholder="Phone"
-    value={searchFields.phone}
-    onChange={handleInputChange}
-  />
-</div>
-<button onClick={searchAirtableByFields}>Search</button>
+        <input
+          type="text"
+          name="firstName"
+          placeholder="First Name"
+          value={searchFields.firstName}
+          onChange={handleInputChange}
+        />
+        <input
+          type="text"
+          name="lastName"
+          placeholder="Last Name"
+          value={searchFields.lastName}
+          onChange={handleInputChange}
+        />
+        <input
+          type="text"
+          name="email"
+          placeholder="Email"
+          value={searchFields.email}
+          onChange={handleInputChange}
+        />
+        <input
+          type="text"
+          name="position"
+          placeholder="Position"
+          value={searchFields.position}
+          onChange={handleInputChange}
+        />
+        <input
+          type="text"
+          name="company"
+          placeholder="Company"
+          value={searchFields.company}
+          onChange={handleInputChange}
+        />
+        <input
+          type="text"
+          name="phone"
+          placeholder="Phone"
+          value={searchFields.phone}
+          onChange={handleInputChange}
+        />
+      </div>
+      <button onClick={searchAirtableByFields}>Search</button>
 
-
-      {qrMessage && <p><strong>{qrMessage}</strong></p>}
+      {qrMessage && (
+        <p>
+          <strong>{qrMessage}</strong>
+        </p>
+      )}
       {isGeneratingPDF ? (
         <div className="spinner"></div>
       ) : data ? (
         <>
-          <DataBadges data={data} recordId={recordId} renderBadge={renderBadge} renderImageStatus={renderImageStatus} />
+          <DataBadges
+            data={data}
+            recordId={recordId}
+            renderBadge={renderBadge}
+            renderImageStatus={renderImageStatus}
+          />
           <CheckInButton
             checkInStatus={checkInStatus}
             recordId={recordId}
@@ -178,7 +193,12 @@ function App() {
                   marginTop: "10px",
                   marginBottom: "10px",
                 }}
-                onClick={() => window.open(`https://in2it-service.com/ifeat/photo/photo_capture.php?record_id=${recordId}`, "_blank")}
+                onClick={() =>
+                  window.open(
+                    `https://in2it-service.com/ifeat/photo/photo_capture.php?record_id=${recordId}`,
+                    "_blank"
+                  )
+                }
               >
                 Take Photo
               </button>
