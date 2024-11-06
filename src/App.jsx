@@ -9,7 +9,6 @@ import "./App.css";
 
 function App() {
   const [data, setData] = useState(null);
-  const [refId, setRefId] = useState("IFEAT-");
   const [recordId, setRecordId] = useState(null);
   const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
   const [pdfReady, setPdfReady] = useState(false);
@@ -17,11 +16,39 @@ function App() {
   const [qrMessage, setQrMessage] = useState(null);
   const [checkInStatus, setCheckInStatus] = useState(null);
 
-  const searchAirtableByRefId = async () => {
+  const [searchFields, setSearchFields] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    position: "",
+    company: "",
+    phone: ""
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setSearchFields((prevFields) => ({
+      ...prevFields,
+      [name]: value,
+    }));
+  };
+
+  const searchAirtableByFields = async () => {
     try {
       setIsGeneratingPDF(true);
       setPdfReady(false);
-
+  
+      // Construct filter formula for case-insensitive search
+      const filters = Object.entries(searchFields)
+        .filter(([, value]) => value) // Only include non-empty fields
+        .map(
+          ([key, value]) =>
+            `SEARCH(LOWER("${value}"), LOWER({${key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, " $1")}}))`
+        )
+        .join(",");
+  
+      const formula = filters ? `OR(${filters})` : "";
+  
       const response = await axios.get(
         `https://api.airtable.com/v0/app5cBH0nxzVUysXB/Registration`,
         {
@@ -29,17 +56,17 @@ function App() {
             Authorization: `Bearer patqmneNITxUZMqvh.6428bde97139fccfde8876240fce3c9516d79b6b2484a180eb6e4e696661cde5`,
           },
           params: {
-            filterByFormula: `{Ref_ID}="${refId}"`,
+            filterByFormula: formula,
           },
         }
       );
-
+  
       const record = response.data.records[0];
       if (record && record.fields) {
         setData(record.fields);
         setRecordId(record.id);
         setPdfReady(true);
-        setCheckInStatus(record.fields.Check_in); // Set the check-in status
+        setCheckInStatus(record.fields.Check_in);
       } else {
         setData(null);
         setCheckInStatus(null);
@@ -50,25 +77,10 @@ function App() {
       setIsGeneratingPDF(false);
     }
   };
-
-  const handleInputChange = (e) => {
-    const value = e.target.value;
-    setRefId(value.startsWith("IFEAT-") ? value : "IFEAT-" + value.replace("IFEAT-", ""));
-  };
-
-  const handleScan = (result) => {
-    if (Array.isArray(result) && result[0]?.rawValue) {
-      const scannedText = result[0].rawValue;
-      setQrMessage(`Scanned QR Code: ${scannedText}`);
-      setRefId(scannedText);
-      setScanning(false);
-    } else {
-      console.warn("Invalid scan result:", result);
-    }
-  };
+  
 
   const handleCheckInSuccess = () => {
-    setCheckInStatus("Checked_in"); // Update local check-in status after success
+    setCheckInStatus("Checked_in");
   };
 
   const renderBadge = (label, value) => {
@@ -95,9 +107,53 @@ function App() {
 
   return (
     <div>
-      <RefIDInput refId={refId} handleInputChange={handleInputChange} onSubmit={searchAirtableByRefId} />
-      <div style={{ textAlign: "center", margin: "0 0", fontWeight: "bold" }}>OR</div>
-      <QRScanner scanning={scanning} setScanning={setScanning} handleScan={handleScan} />
+      <div className="search-fields">
+  <input
+    type="text"
+    name="firstName"
+    placeholder="First Name"
+    value={searchFields.firstName}
+    onChange={handleInputChange}
+  />
+  <input
+    type="text"
+    name="lastName"
+    placeholder="Last Name"
+    value={searchFields.lastName}
+    onChange={handleInputChange}
+  />
+  <input
+    type="text"
+    name="email"
+    placeholder="Email"
+    value={searchFields.email}
+    onChange={handleInputChange}
+  />
+  <input
+    type="text"
+    name="position"
+    placeholder="Position"
+    value={searchFields.position}
+    onChange={handleInputChange}
+  />
+  <input
+    type="text"
+    name="company"
+    placeholder="Company"
+    value={searchFields.company}
+    onChange={handleInputChange}
+  />
+  <input
+    type="text"
+    name="phone"
+    placeholder="Phone"
+    value={searchFields.phone}
+    onChange={handleInputChange}
+  />
+</div>
+<button onClick={searchAirtableByFields}>Search</button>
+
+
       {qrMessage && <p><strong>{qrMessage}</strong></p>}
       {isGeneratingPDF ? (
         <div className="spinner"></div>
@@ -137,7 +193,7 @@ function App() {
                   marginTop: "10px",
                   marginBottom: "10px",
                 }}
-                onClick={searchAirtableByRefId} // Trigger PDF regeneration
+                onClick={searchAirtableByFields}
               >
                 Refresh PDF
               </button>
