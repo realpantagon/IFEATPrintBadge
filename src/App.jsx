@@ -1,4 +1,3 @@
-// App.js
 import axios from "axios";
 import { useState } from "react";
 import RefIDInput from "./RefIDInput";
@@ -111,41 +110,40 @@ function App() {
             onCheckInSuccess={handleCheckInSuccess}
           />
           {checkInStatus === "Checked_in" && (
-  <>
-    <button
-      style={{
-        backgroundColor: "blue",
-        color: "white",
-        padding: "10px 20px",
-        border: "none",
-        borderRadius: "5px",
-        cursor: "pointer",
-        marginTop: "10px",
-        marginBottom: "10px",
-      }}
-      onClick={() => window.open(`https://in2it-service.com/ifeat/photo/photo_capture.php?record_id=${recordId}`, "_blank")}
-    >
-      Take Photo
-    </button>
-    <button
-      style={{
-        backgroundColor: "purple",
-        color: "white",
-        padding: "10px 20px",
-        border: "none",
-        borderRadius: "5px",
-        cursor: "pointer",
-        marginTop: "10px",
-        marginBottom: "10px",
-      }}
-      onClick={searchAirtableByRefId} // Trigger PDF regeneration
-    >
-      Refresh PDF
-    </button>
-  </>
-)}
-
-          <PDFGenerator pdfReady={pdfReady} data={data} />
+            <>
+              <button
+                style={{
+                  backgroundColor: "blue",
+                  color: "white",
+                  padding: "10px 20px",
+                  border: "none",
+                  borderRadius: "5px",
+                  cursor: "pointer",
+                  marginTop: "10px",
+                  marginBottom: "10px",
+                }}
+                onClick={() => window.open(`https://in2it-service.com/ifeat/photo/photo_capture.php?record_id=${recordId}`, "_blank")}
+              >
+                Take Photo
+              </button>
+              <button
+                style={{
+                  backgroundColor: "purple",
+                  color: "white",
+                  padding: "10px 20px",
+                  border: "none",
+                  borderRadius: "5px",
+                  cursor: "pointer",
+                  marginTop: "10px",
+                  marginBottom: "10px",
+                }}
+                onClick={searchAirtableByRefId} // Trigger PDF regeneration
+              >
+                Refresh PDF
+              </button>
+              <PDFGenerator pdfReady={pdfReady} data={data} />
+            </>
+          )}
         </>
       ) : (
         <p>No data found.</p>
