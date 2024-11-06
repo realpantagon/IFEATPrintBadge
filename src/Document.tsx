@@ -16,7 +16,7 @@ export const MyDocument = ({ data }) => (
                 <View style={styles.center}>
                     <Image
                         style={styles.image}
-                        src={(data?.Print2 && data.Print2[0] && data.Print2[0].url) || "https://placehold.co/600x400"}
+                        src={data?.Photo || "https://placehold.co/600x400"} // Direct URL for Photo
                     />
                 </View>
                 <View>
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     },
     image: {
         marginTop: 5,
-        width: "38%",
+        width: "38%", // Matches the size of Print2 image
         height: "auto",
     },
     Fname: {

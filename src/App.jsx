@@ -1,18 +1,22 @@
+// App.js
 import axios from "axios";
 import { useState } from "react";
-import { BlobProvider } from "@react-pdf/renderer";
-import { MyDocument } from "./Document";
-import ErrorBoundary from "./ErrorBoundary";
-import { Scanner } from "@yudiel/react-qr-scanner";
+import RefIDInput from "./RefIDInput";
+import QRScanner from "./QRScanner";
+import DataBadges from "./DataBadges";
+import PDFGenerator from "./PDFGenerator";
+import CheckInButton from "./CheckInButton";
 import "./App.css";
 
 function App() {
   const [data, setData] = useState(null);
   const [refId, setRefId] = useState("IFEAT-");
+  const [recordId, setRecordId] = useState(null);
   const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
   const [pdfReady, setPdfReady] = useState(false);
   const [scanning, setScanning] = useState(false);
-  const [qrMessage, setQrMessage] = useState(null); // Track QR message
+  const [qrMessage, setQrMessage] = useState(null);
+  const [checkInStatus, setCheckInStatus] = useState(null);
 
   const searchAirtableByRefId = async () => {
     try {
@@ -34,14 +38,15 @@ function App() {
       const record = response.data.records[0];
       if (record && record.fields) {
         setData(record.fields);
+        setRecordId(record.id);
         setPdfReady(true);
+        setCheckInStatus(record.fields.Check_in); // Set the check-in status
       } else {
         setData(null);
-        console.warn("No records found for the given Ref_ID.");
+        setCheckInStatus(null);
       }
     } catch (error) {
       console.error("Error fetching data:", error);
-      setData(null);
     } finally {
       setIsGeneratingPDF(false);
     }
@@ -49,36 +54,27 @@ function App() {
 
   const handleInputChange = (e) => {
     const value = e.target.value;
-    if (!value.startsWith("IFEAT-")) {
-      setRefId("IFEAT-" + value.replace("IFEAT-", ""));
-    } else {
-      setRefId(value);
-    }
+    setRefId(value.startsWith("IFEAT-") ? value : "IFEAT-" + value.replace("IFEAT-", ""));
   };
 
   const handleScan = (result) => {
     if (Array.isArray(result) && result[0]?.rawValue) {
-      // Extract rawValue from the first object in the result array
       const scannedText = result[0].rawValue;
       setQrMessage(`Scanned QR Code: ${scannedText}`);
-      setRefId(scannedText); // Pre-fill the input with the scanned value
-      setScanning(false); // Close the scanner after successful scan
+      setRefId(scannedText);
+      setScanning(false);
     } else {
       console.warn("Invalid scan result:", result);
     }
   };
 
-  const renderBadge = (label, value) => {
-    let displayValue;
+  const handleCheckInSuccess = () => {
+    setCheckInStatus("Checked_in"); // Update local check-in status after success
+  };
 
-    if (value === undefined || value === null) {
-      displayValue = <span style={{ color: "red" }}>No data</span>;
-    } else if (typeof value === "string" || typeof value === "number") {
-      displayValue = value;
-    } else {
-      displayValue = <span style={{ color: "red" }}>Invalid data</span>;
-      console.error(`Invalid data for ${label}:`, value);
-    }
+  const renderBadge = (label, value) => {
+    let displayValue = value ?? <span style={{ color: "red" }}>No data</span>;
+    if (typeof value !== "string" && typeof value !== "number") displayValue = <span style={{ color: "red" }}>Invalid data</span>;
 
     return (
       <span className="badge">
@@ -86,120 +82,70 @@ function App() {
         <span className="badge-value">{displayValue}</span>
       </span>
     );
-    
   };
 
   const renderImageStatus = (label, imageData) => {
-    let hasImage = false;
-
-    if (Array.isArray(imageData) && imageData[0]?.url) {
-      hasImage = true;
-    } else {
-      if (imageData && imageData.error) {
-        console.error(`Error loading image for ${label}:`, imageData.error);
-      }
-    }
-
+    const hasImage = Array.isArray(imageData) && imageData[0]?.url;
     return (
       <span className="badge">
         <strong>{label}:</strong>{" "}
-        {hasImage ? (
-          <span style={{ color: "green" }}>✅</span>
-        ) : (
-          <span style={{ color: "red" }}>❌</span>
-        )}
+        {hasImage ? <span style={{ color: "green" }}>✅</span> : <span style={{ color: "red" }}>❌</span>}
       </span>
     );
   };
 
   return (
     <div>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          searchAirtableByRefId();
-        }}
-      >
-        <input
-          type="text"
-          placeholder="Enter Reference ID"
-          value={refId}
-          onChange={handleInputChange}
-        />
-        <button type="submit">Search</button>
-      </form>
-
-      {/* Divider indicating OR */}
-      <div style={{ textAlign: "center", margin: "0 0", fontWeight: "bold" }}>
-        OR
-      </div>
-
-      <button
-        className="gradient-button"
-        onClick={() => setScanning(!scanning)}
-      >
-        {scanning ? "Stop Scanning" : "Scan QR Code"}
-      </button>
-
-      {scanning && (
-        <Scanner
-          onScan={handleScan}
-          onError={(error) => console.error(error)}
-        />
-      )}
-
-      {/* Display scanned QR code message */}
-      {qrMessage && (
-        <p>
-          <strong>{qrMessage}</strong>
-        </p>
-      )}
-
+      <RefIDInput refId={refId} handleInputChange={handleInputChange} onSubmit={searchAirtableByRefId} />
+      <div style={{ textAlign: "center", margin: "0 0", fontWeight: "bold" }}>OR</div>
+      <QRScanner scanning={scanning} setScanning={setScanning} handleScan={handleScan} />
+      {qrMessage && <p><strong>{qrMessage}</strong></p>}
       {isGeneratingPDF ? (
         <div className="spinner"></div>
       ) : data ? (
         <>
-          <div className="data-badges">
-            {renderBadge("Ref ID", data.Ref_ID)}
-            {renderBadge("First Name", data.Use_FNAME_Badge)}
-            {renderBadge("Last Name", data.Use_LNAME_Badge)}
-            {renderBadge("Position", data.Use_Position_Badge)}
-            {renderBadge("Company", data.Use_Company_Badge)}
-            {renderBadge("Country", data.Use_Country_Badge)}
-            {renderImageStatus("QR Contact", data.QR_Contact)}
-            {renderImageStatus("Background Type", data.BG_Type)}
-            {renderImageStatus("Print", data.Print2)}
-          </div>
+          <DataBadges data={data} recordId={recordId} renderBadge={renderBadge} renderImageStatus={renderImageStatus} />
+          <CheckInButton
+            checkInStatus={checkInStatus}
+            recordId={recordId}
+            onCheckInSuccess={handleCheckInSuccess}
+          />
+          {checkInStatus === "Checked_in" && (
+  <>
+    <button
+      style={{
+        backgroundColor: "blue",
+        color: "white",
+        padding: "10px 20px",
+        border: "none",
+        borderRadius: "5px",
+        cursor: "pointer",
+        marginTop: "10px",
+        marginBottom: "10px",
+      }}
+      onClick={() => window.open(`https://in2it-service.com/ifeat/photo/photo_capture.php?record_id=${recordId}`, "_blank")}
+    >
+      Take Photo
+    </button>
+    <button
+      style={{
+        backgroundColor: "purple",
+        color: "white",
+        padding: "10px 20px",
+        border: "none",
+        borderRadius: "5px",
+        cursor: "pointer",
+        marginTop: "10px",
+        marginBottom: "10px",
+      }}
+      onClick={searchAirtableByRefId} // Trigger PDF regeneration
+    >
+      Refresh PDF
+    </button>
+  </>
+)}
 
-          {pdfReady && (
-            <ErrorBoundary>
-              <BlobProvider document={<MyDocument data={data} />}>
-                {({ blob, url, loading, error }) => {
-                  if (error) {
-                    console.error("PDF generation error:", error);
-                    return (
-                      <p style={{ color: "red" }}>
-                        Error generating PDF, please try again later.
-                      </p>
-                    );
-                  }
-                  return loading ? (
-                    <div className="spinner"></div>
-                  ) : (
-                    <button
-                      onClick={() => {
-                        if (url) {
-                          window.open(url, "_blank");
-                        }
-                      }}
-                    >
-                      Generate PDF
-                    </button>
-                  );
-                }}
-              </BlobProvider>
-            </ErrorBoundary>
-          )}
+          <PDFGenerator pdfReady={pdfReady} data={data} />
         </>
       ) : (
         <p>No data found.</p>
