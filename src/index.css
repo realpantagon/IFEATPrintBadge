@@ -139,3 +139,27 @@ p {
 .gradient-button:active {
   transform: scale(0.98);
 }
+
+
+/* Data table styling */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 16px;
+}
+
+.data-table td {
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+.data-table td:first-child {
+  font-weight: bold;
+  background-color: #f7f7f7;
+  width: 30%;
+}
+
+.data-table td:last-child {
+  width: 70%;
+}
