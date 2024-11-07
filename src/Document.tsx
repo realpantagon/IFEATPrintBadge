@@ -4,7 +4,6 @@ import {
     Text,
     View,
     Image,
-    PDFViewer,
     StyleSheet,
 } from "@react-pdf/renderer";
 import React from "react";
@@ -16,7 +15,7 @@ export const MyDocument = ({ data }) => (
                 <View style={styles.center}>
                     <Image
                         style={styles.image}
-                        src={data?.Photo || "https://placehold.co/600x400"} // Direct URL for Photo
+                        src={(data?.Photo_Attach && data.Photo_Attach[0] && data.Photo_Attach[0].url) || "https://placehold.co/800x800"}
                     />
                 </View>
                 <View>
@@ -122,3 +121,5 @@ const styles = StyleSheet.create({
         fontSize: 10,
     },
 });
+
+export default MyDocument;

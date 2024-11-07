@@ -47,6 +47,7 @@ function App() {
           },
         }
       );
+      console.log("Response data:", response.data);
 
       const record = response.data.records[0];
       if (record && record.fields) {

@@ -51,8 +51,8 @@ function DataBadges({ data, recordId }) {
             <td>{Array.isArray(data.BG_Type) && data.BG_Type[0]?.url ? "✅" : "❌"}</td>
           </tr>
           <tr>
-            <td><strong>Print</strong></td>
-            <td>{Array.isArray(data.Print2) && data.Print2[0]?.url ? "✅" : "❌"}</td>
+            <td><strong>Photo</strong></td>
+            <td>{Array.isArray(data.Photo) && data.Photo[0]?.url ? "✅" : "❌"}</td>
           </tr>
         </tbody>
       </table>
