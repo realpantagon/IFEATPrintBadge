@@ -10,7 +10,7 @@ import React from "react";
 
 export const MyDocument = ({ data }) => {
     // Fallback images
-    const defaultPhotoUrl = "https://placehold.co/800x800";
+    const defaultPhotoUrl = "https://placehold.co/800x600";
     const defaultQrUrl = "https://placehold.co/600x400";
     const defaultBgUrl = "https://placehold.co/600x400";
 
@@ -21,51 +21,54 @@ export const MyDocument = ({ data }) => {
 
     return (
         <Document>
-            <Page size={{ width: 378, height: 454 }}>
-                <View style={styles.page}>
-                    <View style={styles.center}>
-                        <Image style={styles.image} src={photoUrl} />
-                    </View>
-                    <View>
-                        {data ? (
-                            <>
-                                <Text style={styles.Fname}>{data.Use_FNAME_Badge || ""}</Text>
-                                <Text style={styles.Lname}>{data.Use_LNAME_Badge || ""}</Text>
-                            </>
-                        ) : (
-                            <>
-                                <Text style={styles.Fname}> </Text>
-                                <Text style={styles.Lname}> </Text>
-                            </>
-                        )}
-                    </View>
-                    <View style={styles.bottomBox}>
+            {/* Duplicate page */}
+            {[1, 2].map((_, index) => (
+                <Page key={index} size={{ width: 378, height: 454 }}>
+                    <View style={styles.page}>
+                        <View style={styles.center}>
+                            <Image style={styles.image} src={photoUrl} />
+                        </View>
                         <View>
-                            <View style={styles.companyBox}>
-                                {data ? (
-                                    <>
-                                        <Text style={styles.position}>{data.Use_Position_Badge || ""}</Text>
-                                        <Text style={styles.company}>{data.Use_Company_Badge || ""}</Text>
-                                    </>
-                                ) : (
-                                    <>
-                                        <Text style={styles.position}> </Text>
-                                        <Text style={styles.company}> </Text>
-                                    </>
-                                )}
+                            {data ? (
+                                <>
+                                    <Text style={styles.Fname}>{data.Use_FNAME_Badge || ""}</Text>
+                                    <Text style={styles.Lname}>{data.Use_LNAME_Badge || ""}</Text>
+                                </>
+                            ) : (
+                                <>
+                                    <Text style={styles.Fname}> </Text>
+                                    <Text style={styles.Lname}> </Text>
+                                </>
+                            )}
+                        </View>
+                        <View style={styles.bottomBox}>
+                            <View>
+                                <View style={styles.companyBox}>
+                                    {data ? (
+                                        <>
+                                            <Text style={styles.position}>{data.Use_Position_Badge || ""}</Text>
+                                            <Text style={styles.company}>{data.Use_Company_Badge || ""}</Text>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Text style={styles.position}> </Text>
+                                            <Text style={styles.company}> </Text>
+                                        </>
+                                    )}
+                                </View>
+                                <Text style={styles.country}>{data?.Use_Country_Badge || " "}</Text>
                             </View>
-                            <Text style={styles.country}>{data?.Use_Country_Badge || " "}</Text>
-                        </View>
-                        <View>
-                            <Image style={styles.qrCode} src={qrUrl} />
-                            <Text style={styles.refId}>{data?.Ref_ID || " "}</Text>
+                            <View>
+                                <Image style={styles.qrCode} src={qrUrl} />
+                                <Text style={styles.refId}>{data?.Ref_ID || " "}</Text>
+                            </View>
                         </View>
                     </View>
-                </View>
-                <View style={styles.bgImage}>
-                    <Image src={bgUrl} />
-                </View>
-            </Page>
+                    <View style={styles.bgImage}>
+                        <Image src={bgUrl} />
+                    </View>
+                </Page>
+            ))}
         </Document>
     );
 };
