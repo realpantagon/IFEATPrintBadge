@@ -126,11 +126,11 @@ function App() {
                   marginTop: "10px",
                   marginBottom: "10px",
                 }}
-                onClick={() => window.open(`https://in2it-service.com/ifeat/photo/photo_capture.php?record_id=${recordId}`, "_blank")}
+                onClick={() => window.open(`https://in2it-service.com/ifeat/photo/new_photo_capture.php?record_id=${recordId}`, "_blank")}
               >
                 Take Photo
               </button>
-              <button
+              {/* <button
                 style={{
                   backgroundColor: "purple",
                   color: "white",
@@ -144,8 +144,8 @@ function App() {
                 onClick={searchAirtableByFields}
               >
                 Refresh PDF
-              </button>
-              <PDFGenerator pdfReady={pdfReady} data={data} />
+              </button> */}
+              {/* <PDFGenerator pdfReady={pdfReady} data={data} /> */}
             </>
           )}
         </>
