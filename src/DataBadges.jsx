@@ -1,58 +1,68 @@
-// DataBadges.js
 import React from "react";
 
 function DataBadges({ data, recordId }) {
+  const renderData = (value) => {
+    if (typeof value === "string" || typeof value === "number") {
+      return value;
+    } else if (Array.isArray(value)) {
+      return value.length > 0 ? "✅" : "❌";
+    } else if (value && typeof value === "object") {
+      return "Invalid data"; // Optional: use JSON.stringify(value) for debugging
+    }
+    return <span style={{ color: "red" }}>No data</span>;
+  };
+
   return (
     <div className="data-badges">
       <table className="data-table">
         <tbody>
           <tr>
             <td><strong>Record ID</strong></td>
-            <td>{recordId || <span style={{ color: "red" }}>No data</span>}</td>
+            <td>{renderData(recordId)}</td>
           </tr>
           <tr>
             <td><strong>Ref ID</strong></td>
-            <td>{data.Ref_ID || <span style={{ color: "red" }}>No data</span>}</td>
+            <td>{renderData(data?.Ref_ID)}</td>
           </tr>
           <tr>
             <td><strong>First Name</strong></td>
-            <td>{data.Use_FNAME_Badge || <span style={{ color: "red" }}>No data</span>}</td>
+            <td>{renderData(data?.Use_FNAME_Badge)}</td>
           </tr>
           <tr>
             <td><strong>Last Name</strong></td>
-            <td>{data.Use_LNAME_Badge || <span style={{ color: "red" }}>No data</span>}</td>
+            <td>{renderData(data?.Use_LNAME_Badge)}</td>
           </tr>
           <tr>
             <td><strong>Position</strong></td>
-            <td>{data.Use_Position_Badge || <span style={{ color: "red" }}>No data</span>}</td>
+            <td>{renderData(data?.Use_Position_Badge)}</td>
           </tr>
           <tr>
             <td><strong>Company</strong></td>
-            <td>{data.Use_Company_Badge || <span style={{ color: "red" }}>No data</span>}</td>
+            <td>{renderData(data?.Use_Company_Badge)}</td>
           </tr>
           <tr>
             <td><strong>Country</strong></td>
-            <td>{data.Use_Country_Badge || <span style={{ color: "red" }}>No data</span>}</td>
+            <td>{renderData(data?.Use_Country_Badge)}</td>
           </tr>
           <tr>
             <td><strong>Email</strong></td>
-            <td>{data.Email || <span style={{ color: "red" }}>No data</span>}</td>
+            <td>{renderData(data?.Email)}</td>
           </tr>
           <tr>
             <td><strong>Phone</strong></td>
-            <td>{data.Phone || <span style={{ color: "red" }}>No data</span>}</td>
+            <td>{renderData(data?.Phone)}</td>
           </tr>
           <tr>
             <td><strong>QR Contact</strong></td>
-            <td>{Array.isArray(data.QR_Contact) && data.QR_Contact[0]?.url ? "✅" : "❌"}</td>
+            <td>{Array.isArray(data?.QR_Contact) && data.QR_Contact[0]?.url ? "✅" : "❌"}</td>
           </tr>
           <tr>
             <td><strong>Background Type</strong></td>
-            <td>{Array.isArray(data.BG_Type) && data.BG_Type[0]?.url ? "✅" : "❌"}</td>
+            <td>{Array.isArray(data?.BG_Type) && data.BG_Type[0]?.url ? "✅" : "❌"}</td>
           </tr>
           <tr>
             <td><strong>Photo</strong></td>
-            <td>{Array.isArray(data.Photo) && data.Photo[0]?.url ? "✅" : "❌"}</td>
+            <td>{Array.isArray(data?.Photo_Attach) && data.Photo_Attach[0]?.url ? "✅" : "❌"}</td>
           </tr>
         </tbody>
       </table>
