@@ -16,14 +16,14 @@ function DataBadges({ data, recordId }) {
     <div className="data-badges">
       <table className="data-table">
         <tbody>
-          <tr>
+          {/* <tr>
             <td><strong>Record ID</strong></td>
             <td>{renderData(recordId)}</td>
-          </tr>
-          <tr>
+          </tr> */}
+          {/* <tr>
             <td><strong>Ref ID</strong></td>
             <td>{renderData(data?.Ref_ID)}</td>
-          </tr>
+          </tr> */}
           <tr>
             <td><strong>First Name</strong></td>
             <td>{renderData(data?.Use_FNAME_Badge)}</td>
@@ -54,15 +54,29 @@ function DataBadges({ data, recordId }) {
           </tr>
           <tr>
             <td><strong>QR Contact</strong></td>
-            <td>{Array.isArray(data?.QR_Contact) && data.QR_Contact[0]?.url ? "✅" : "❌"}</td>
+            <td>
+              {Array.isArray(data?.QR_Contact) && data.QR_Contact[0]?.url
+                ? "✅"
+                : "❌"}
+            </td>
           </tr>
           <tr>
             <td><strong>Background Type</strong></td>
-            <td>{Array.isArray(data?.BG_Type) && data.BG_Type[0]?.url ? "✅" : "❌"}</td>
+            <td>
+              {Array.isArray(data?.BG_Type) && data.BG_Type[0]?.url
+                ? "✅"
+                : "❌"}
+            </td>
           </tr>
           <tr>
             <td><strong>Photo</strong></td>
-            <td>{Array.isArray(data?.Photo_Attach) && data.Photo_Attach[0]?.url ? "✅" : "❌"}</td>
+            <td>
+              {data?.Photo ? (
+                <span style={{ color: "green" }}>✅</span>
+              ) : (
+                <span style={{ color: "red" }}>❌</span>
+              )}
+            </td>
           </tr>
         </tbody>
       </table>
