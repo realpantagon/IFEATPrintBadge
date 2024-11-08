@@ -11,9 +11,9 @@ function App() {
   const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
   const [pdfReady, setPdfReady] = useState(false);
   const [checkInStatus, setCheckInStatus] = useState(null);
-  
-  // Single search term for smart search
   const [searchTerm, setSearchTerm] = useState("");
+  const [records, setRecords] = useState([]); // Store all fetched records
+  const [selectedRecord, setSelectedRecord] = useState(null); // Store selected record
 
   const handleInputChange = (e) => {
     setSearchTerm(e.target.value);
@@ -24,7 +24,6 @@ function App() {
       setIsGeneratingPDF(true);
       setPdfReady(false);
 
-      // Construct filter formula for smart search across all fields
       const formula = searchTerm
         ? `OR(
             SEARCH(LOWER("${searchTerm}"), LOWER({First Name})),
@@ -47,15 +46,14 @@ function App() {
           },
         }
       );
+
       console.log("Response data:", response.data);
 
-      const record = response.data.records[0];
-      if (record && record.fields) {
-        setData(record.fields);
-        setRecordId(record.id);
-        setPdfReady(true);
-        setCheckInStatus(record.fields.Check_in);
+      if (response.data.records.length > 0) {
+        setRecords(response.data.records); // Set all records
+        setSelectedRecord(null); // Clear previous selection
       } else {
+        setRecords([]);
         setData(null);
         setCheckInStatus(null);
       }
@@ -66,32 +64,20 @@ function App() {
     }
   };
 
-  const handleCheckInSuccess = () => {
-    setCheckInStatus("Checked_in");
+  const handleRecordSelection = (record) => {
+    setSelectedRecord(record);
+    setData(record.fields);
+    setRecordId(record.id);
+    setCheckInStatus(record.fields.Check_in);
+    setPdfReady(true);
   };
 
-  const renderBadge = (label, value) => {
-    let displayValue = value ?? <span style={{ color: "red" }}>No data</span>;
-    if (typeof value !== "string" && typeof value !== "number") displayValue = <span style={{ color: "red" }}>Invalid data</span>;
-
-    return (
-      <span className="badge">
-        <span className="badge-key">{label}:</span>
-        <span className="badge-value">{displayValue}</span>
-      </span>
-    );
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      searchAirtableByFields(); // Trigger search on Enter key press
+    }
   };
-
-  const renderImageStatus = (label, imageData) => {
-    const hasImage = Array.isArray(imageData) && imageData[0]?.url;
-    return (
-      <span className="badge">
-        <strong>{label}:</strong>{" "}
-        {hasImage ? <span style={{ color: "green" }}>✅</span> : <span style={{ color: "red" }}>❌</span>}
-      </span>
-    );
-  };
-
+  
   return (
     <div className="app-container">
       <input
@@ -100,18 +86,44 @@ function App() {
         placeholder="Search across all fields"
         value={searchTerm}
         onChange={handleInputChange}
+        onKeyDown={handleKeyDown}
       />
       <button onClick={searchAirtableByFields}>Search</button>
 
       {isGeneratingPDF ? (
         <div className="spinner"></div>
+      ) : records.length > 0 && !selectedRecord ? (
+        <div className="records-container">
+          <h3 className="records-title">Select a record:</h3>
+          <table className="records-table">
+            <tbody>
+              {records.map((record) => (
+                <tr
+                  key={record.id}
+                  onClick={() => handleRecordSelection(record)}
+                >
+                  <td>
+                    <span className="first-name">
+                      {record.fields["First Name"]}
+                    </span>{" "}
+                    <span className="last-name">
+                      {record.fields["Last Name"]}
+                    </span>{" "}
+                    {/* {record.fields["Last Name"]}  */}-{" "}
+                    {record.fields.Company}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       ) : data ? (
         <>
-          <DataBadges data={data} recordId={recordId} renderBadge={renderBadge} renderImageStatus={renderImageStatus} />
+          <DataBadges data={data} recordId={recordId} />
           <CheckInButton
             checkInStatus={checkInStatus}
             recordId={recordId}
-            onCheckInSuccess={handleCheckInSuccess}
+            onCheckInSuccess={() => setCheckInStatus("Checked_in")}
           />
           {checkInStatus === "Checked_in" && (
             <>
@@ -126,26 +138,15 @@ function App() {
                   marginTop: "10px",
                   marginBottom: "10px",
                 }}
-                onClick={() => window.open(`https://in2it-service.com/ifeat/photo/new_photo_capture.php?record_id=${recordId}`, "_blank")}
+                onClick={() =>
+                  window.open(
+                    `https://in2it-service.com/ifeat/photo/new_photo_capture.php?record_id=${recordId}`,
+                    "_blank"
+                  )
+                }
               >
                 Take Photo
               </button>
-              {/* <button
-                style={{
-                  backgroundColor: "purple",
-                  color: "white",
-                  padding: "10px 20px",
-                  border: "none",
-                  borderRadius: "5px",
-                  cursor: "pointer",
-                  marginTop: "10px",
-                  marginBottom: "10px",
-                }}
-                onClick={searchAirtableByFields}
-              >
-                Refresh PDF
-              </button> */}
-              {/* <PDFGenerator pdfReady={pdfReady} data={data} /> */}
             </>
           )}
         </>
