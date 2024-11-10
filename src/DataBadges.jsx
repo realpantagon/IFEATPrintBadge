@@ -44,14 +44,14 @@ function DataBadges({ data, recordId }) {
             <td><strong>Country</strong></td>
             <td>{renderData(data?.Use_Country_Badge)}</td>
           </tr>
-          <tr>
+           <tr>
             <td><strong>Email</strong></td>
             <td>{renderData(data?.Email)}</td>
           </tr>
           <tr>
             <td><strong>Phone</strong></td>
             <td>{renderData(data?.Phone)}</td>
-          </tr>
+          </tr> 
           <tr>
             <td><strong>QR Contact</strong></td>
             <td>
@@ -59,7 +59,7 @@ function DataBadges({ data, recordId }) {
                 ? "✅"
                 : "❌"}
             </td>
-          </tr>
+          </tr> 
           <tr>
             <td><strong>Background Type</strong></td>
             <td>
@@ -68,7 +68,7 @@ function DataBadges({ data, recordId }) {
                 : "❌"}
             </td>
           </tr>
-          <tr>
+          {/* <tr>
             <td><strong>Photo</strong></td>
             <td>
               {data?.Photo ? (
@@ -77,7 +77,7 @@ function DataBadges({ data, recordId }) {
                 <span style={{ color: "red" }}>❌</span>
               )}
             </td>
-          </tr>
+          </tr> */}
         </tbody>
       </table>
     </div>
