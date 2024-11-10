@@ -52,14 +52,14 @@ function DataBadges({ data, recordId }) {
             <td><strong>Phone</strong></td>
             <td>{renderData(data?.Phone)}</td>
           </tr> 
-          <tr>
+          {/* <tr>
             <td><strong>QR Contact</strong></td>
             <td>
               {Array.isArray(data?.QR_Contact) && data.QR_Contact[0]?.url
                 ? "✅"
                 : "❌"}
             </td>
-          </tr> 
+          </tr>  */}
           <tr>
             <td><strong>Background Type</strong></td>
             <td>
